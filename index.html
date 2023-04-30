@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App V3</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="music-wrapper">
+            <div class="music_content">
+                <div class="music_content_box">
+                    <div class="music_title">
+                        <h4>Có chắc yêu là đây</h4>
+                    </div>
+                    <div class="music_author">
+                        <h5>Sơn Tùng - MTP</h5>
+                    </div>
+                    <div class="music_controls">
+                        <button id="prev_btn"><i class="fas fa-angle-left"></i></button>
+                        <button id="play_btn"><i class="fas fa-play"></i></button>
+                        <button id="next_btn"><i class="fas fa-angle-right"></i></button>
+                        <input value="0" id="music_range" type="range">
+                    </div>
+                    <audio src="" id="audio"></audio>
+                </div>
+            </div>
+            <div class="music_thumbnail">
+            </div>
+            <div class="music_cd">
+                <img src="./assets/images/cd.png" class="music_cd_img" alt="">
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
