@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Vollkorn&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Brygada+1918&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -7,8 +6,10 @@
 
 body {
     background-color: #A5C0DD;
-    font-family: 'Vollkorn', serif;
+    font-family: 'Arial';
     color: #444;
+    font-family: 'Brygada 1918', serif;
+
 }
 
 .container{
@@ -24,7 +25,6 @@ body {
         left: 50%;
         transform: translate(-50%,-50%);
         filter: none;
-
         .music_content {
             width: 70%;
             height: 100%;
@@ -69,7 +69,16 @@ body {
                         width: 80%;
                         display: block;
                         margin: 30px auto;
+                        margin-bottom: 10px;
                         cursor: pointer;
+                    }
+                    .song_time{
+                        display: flex;
+                        justify-content: space-around;
+                        margin-top: 10px;
+                        span{
+                            font-size: 14px;
+                        }
                     }
                 }
             }

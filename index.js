@@ -41,7 +41,7 @@ const songs = [{
     art: "./assets/images/ctcht.jpg",
   },
   {
-    name: "Cơn Mưa Ngang Qua - Disco Ver",
+    name: "Cơn Mưa Ngang Qua - Disco Version",
     author: "Sơn Tùng - MTP",
     path: "./assets/songs/cmnq.mp3",
     art: "./assets/images/cmnq.png",
@@ -77,7 +77,7 @@ const songs = [{
     art: "./assets/images/noaa.jpg",
   },
   {
-    name: "There's No One At All - Piano Version",
+    name: "There's No One At All - Another Version",
     author: "Sơn Tùng - MTP",
     path: "./assets/songs/noaa1.mp3",
     art: "./assets/images/noaa1.jpg",
@@ -130,6 +130,8 @@ const music_cd = document.querySelector('.music_cd');
 const music_cd_img = document.querySelector('.music_cd_img');
 const music_title = document.querySelector('.music_title h4');
 const music_author = document.querySelector('.music_author h5');
+const song_durartion = document.querySelector('.song_durartion');
+const song_currentTime = document.querySelector('.song_currentTime');
 
 const app = {
   songs,
@@ -161,7 +163,7 @@ const app = {
   },
   nextSong() {
     this.index++;
-    if (this.index > songs.length) {
+    if (this.index > songs.length - 1) {
       this.index = 0;
     }
     // Load lại bài hát + play
@@ -173,13 +175,13 @@ const app = {
   skipSong(value) {
     audio.currentTime = value
   },
-  checkSongPlaying(){
-    audio.onplay = ()=>{
+  checkSongPlaying() {
+    audio.onplay = () => {
       music_cd_img.classList.remove("pause");
       music_cd_img.classList.add("play");
       music_cd.style.right = "0%";
     }
-    audio.onpause = ()=>{
+    audio.onpause = () => {
       music_cd_img.classList.add('pause');
       music_cd.style.right = "16%";
     }
@@ -190,21 +192,36 @@ const app = {
     music_title.innerText = songs[this.index].name;
     music_author.innerText = songs[this.index].author;
 
+
     setTimeout(() => {
-      const { duration} = audio;
+      const {
+        duration
+      } = audio;
       music_range.min = 0;
       music_range.value = 0;
       music_range.max = Math.floor(duration);
+      song_durartion.innerHTML = this.fortmatTimer(Math.floor(duration));
+      song_currentTime.innerHTML = "00:00";
     }, 100)
 
+  },
+  fortmatTimer(number) {
+    const minutes = Math.floor(number / 60);
+    const seconds = Math.floor(number - minutes * 60);
+    return `${minutes < 10 ? "0" + minutes : minutes}:${
+      seconds < 10 ? "0" + seconds : seconds
+    }`;
   },
   updateTime() {
     if (!audio.paused) {
       this.timer = setInterval(() => {
-        let {currentTime} = audio;
+        let {
+          currentTime, duration
+        } = audio;
         music_range.value = Math.floor(currentTime);
+        song_currentTime.innerHTML = this.fortmatTimer(currentTime);
         // Kiểm tra nếu hết bài thì next
-        if(audio.ended){
+        if (audio.ended) {
           this.nextSong();
         }
       }, 1000);
