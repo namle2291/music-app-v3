@@ -44,6 +44,11 @@ body {
 }
 .container .music-wrapper .music_content .music_content_box .music_title {
   margin-top: 15px;
+  height: 60px;
+  line-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container .music-wrapper .music_content .music_content_box .music_author {
   margin-top: 15px;
@@ -58,7 +63,7 @@ body {
   height: 40px;
   text-align: center;
   line-height: 40px;
-  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
   font-size: 18px;
   cursor: pointer;
   border-radius: 5px;
@@ -67,7 +72,14 @@ body {
   color: #555;
 }
 .container .music-wrapper .music_content .music_content_box .music_controls button:hover {
-  background-color: #FFF8D6;
+  background-color: #19A7CE;
+  color: #fff;
+}
+.container .music-wrapper .music_content .music_content_box .music_controls #loop_btn, .container .music-wrapper .music_content .music_content_box .music_controls #random_btn {
+  background: none;
+  box-shadow: none;
+  margin: 0 10px;
+  cursor: pointer;
 }
 .container .music-wrapper .music_content .music_content_box .music_controls #music_range {
   width: 80%;
@@ -83,6 +95,27 @@ body {
 }
 .container .music-wrapper .music_content .music_content_box .music_controls .song_time span {
   font-size: 14px;
+}
+.container .music-wrapper .music_content .music_content_box .music_controls .music_volume {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+.container .music-wrapper .music_content .music_content_box .music_controls .music_volume span {
+  margin: 0 5px;
+}
+.container .music-wrapper .music_content .music_content_box .music_controls .music_volume input {
+  width: 25%;
+}
+.container .music-wrapper .music_content .music_content_box .music_controls .music_volume input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  background: #19A7CE;
+  box-shadow: 0 0 2px 0 #555;
+  cursor: pointer;
 }
 .container .music-wrapper .music_thumbnail {
   width: 270px;
@@ -130,8 +163,9 @@ input[type=range]::-webkit-slider-thumb {
   height: 15px;
   width: 15px;
   border-radius: 50%;
-  background: #333;
+  background: #19A7CE;
   box-shadow: 0 0 2px 0 #555;
+  border: 2px solid #fff;
 }
 
 @keyframes animate {

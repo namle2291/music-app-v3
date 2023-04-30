@@ -124,7 +124,10 @@ const audio = document.querySelector('audio');
 const prev_btn = document.querySelector('#prev_btn');
 const play_btn = document.querySelector('#play_btn');
 const next_btn = document.querySelector('#next_btn');
+const loop_btn = document.querySelector('#loop_btn');
+const random_btn = document.querySelector('#random_btn');
 const music_range = document.querySelector('#music_range');
+const music_volume = document.querySelector('.music_volume input');
 const music_thumbnail = document.querySelector('.music_thumbnail');
 const music_cd = document.querySelector('.music_cd');
 const music_cd_img = document.querySelector('.music_cd_img');
@@ -137,7 +140,10 @@ const app = {
   songs,
   index: 0,
   isPlaying: false,
+  isLoop: true,
+  isRandom: true,
   timer: null,
+  timerRandom: null,
   play() {
     if (this.isPlaying) {
       audio.pause();
@@ -175,6 +181,20 @@ const app = {
   skipSong(value) {
     audio.currentTime = value
   },
+  changeVolume(value){
+    audio.volume = value/100;
+  },
+  loopSong(element){
+    if(this.isLoop){
+      this.isLoop = false;
+      audio.loop = true;
+      element.style.color = '#19A7CE';
+    }else{
+      this.isLoop = true;
+      audio.loop = false;
+      element.style.color = '#333';
+    }
+  },
   checkSongPlaying() {
     audio.onplay = () => {
       music_cd_img.classList.remove("pause");
@@ -192,7 +212,6 @@ const app = {
     music_title.innerText = songs[this.index].name;
     music_author.innerText = songs[this.index].author;
 
-
     setTimeout(() => {
       const {
         duration
@@ -206,17 +225,20 @@ const app = {
 
   },
   fortmatTimer(number) {
-    const minutes = Math.floor(number / 60);
-    const seconds = Math.floor(number - minutes * 60);
-    return `${minutes < 10 ? "0" + minutes : minutes}:${
+    if (number) {
+      const minutes = Math.floor(number / 60);
+      const seconds = Math.floor(number - minutes * 60);
+      return `${minutes < 10 ? "0" + minutes : minutes}:${
       seconds < 10 ? "0" + seconds : seconds
     }`;
+    }
   },
   updateTime() {
     if (!audio.paused) {
       this.timer = setInterval(() => {
         let {
-          currentTime, duration
+          currentTime,
+          duration
         } = audio;
         music_range.value = Math.floor(currentTime);
         song_currentTime.innerHTML = this.fortmatTimer(currentTime);
@@ -248,6 +270,18 @@ const app = {
     // Tua bài hát
     music_range.addEventListener('input', (e) => {
       this.skipSong(e.target.value);
+    });
+    // Thay đổi âm lượng
+    music_volume.addEventListener('input',(e)=>{
+      this.changeVolume(e.target.value);
+    });
+    // Nhấn nút loop
+    loop_btn.addEventListener('click',(e)=>{
+      this.loopSong(e.target);
+    });
+    // Nhấn nút random
+    random_btn.addEventListener('click',(e)=>{
+      
     });
   },
   start() {

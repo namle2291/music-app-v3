@@ -41,6 +41,11 @@ body {
                 text-align: center;
                 .music_title{
                     margin-top: 15px;
+                    height: 60px;
+                    line-height: 60px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
                 .music_author{
                     margin-top: 15px;
@@ -54,7 +59,7 @@ body {
                         height: 40px;
                         text-align: center;
                         line-height: 40px;
-                        transition: .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                        transition: .2s cubic-bezier(0.165, 0.84, 0.44, 1);
                         font-size: 18px;
                         cursor: pointer;
                         border-radius: 5px;
@@ -62,8 +67,15 @@ body {
                         margin: 0 5px;
                         color: #555;
                         &:hover{
-                            background-color: #FFF8D6
+                            background-color: #19A7CE;
+                            color: #fff;
                         }
+                    }
+                    #loop_btn, #random_btn{
+                        background: none;
+                        box-shadow: none;
+                        margin: 0 10px;
+                        cursor: pointer;
                     }
                     #music_range{
                         width: 80%;
@@ -78,6 +90,27 @@ body {
                         margin-top: 10px;
                         span{
                             font-size: 14px;
+                        }
+                    }
+                    .music_volume{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 13px;
+                        span{
+                            margin: 0 5px;
+                        }
+                        input{
+                            width: 25%;
+                        }
+                        input[type="range"]::-webkit-slider-thumb {
+                            -webkit-appearance: none;
+                            height: 13px;
+                            width: 13px;
+                            border-radius: 50%;
+                            background: #19A7CE;
+                            box-shadow: 0 0 2px 0 #555;
+                            cursor: pointer;
                         }
                     }
                 }
@@ -131,8 +164,9 @@ input[type="range"]::-webkit-slider-thumb {
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background: #333;
+    background: #19A7CE;
     box-shadow: 0 0 2px 0 #555;
+    border: 2px solid #fff;
 }
   
 @keyframes animate {
@@ -142,4 +176,8 @@ input[type="range"]::-webkit-slider-thumb {
     to{
         transform: rotate(360deg);
     }
+}
+// Responsiev
+@media screen and (max-width: 895px){
+    
 }

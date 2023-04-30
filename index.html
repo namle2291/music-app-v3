@@ -28,13 +28,19 @@
                         <h5>Sơn Tùng - MTP</h5>
                     </div>
                     <div class="music_controls">
+                        <span id="loop_btn"><i class="fas fa-undo"></i></span>
                         <button id="prev_btn"><i class="fas fa-angle-left"></i></button>
                         <button id="play_btn"><i class="fas fa-play"></i></button>
                         <button id="next_btn"><i class="fas fa-angle-right"></i></button>
+                        <span id="random_btn"><i class="fas fa-random"></i></span>
                         <input value="0" id="music_range" type="range">
                         <div class="song_time">
                             <span class="song_durartion">00:00</span>
                             <span class="song_currentTime">03:00</span>
+                        </div>
+                        <div class="music_volume">
+                            <span><i class="fas fa-volume-up"></i></span>
+                            <input type="range" value="100" max="100" min="0">
                         </div>
                     </div>
                     <audio src="" id="audio"></audio>
