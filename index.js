@@ -128,6 +128,7 @@ const loop_btn = document.querySelector('#loop_btn');
 const random_btn = document.querySelector('#random_btn');
 const music_range = document.querySelector('#music_range');
 const music_volume = document.querySelector('.music_volume input');
+const music_volume_icon = document.querySelector('.music_volume span');
 const music_thumbnail = document.querySelector('.music_thumbnail');
 const music_cd = document.querySelector('.music_cd');
 const music_cd_img = document.querySelector('.music_cd_img');
@@ -141,7 +142,7 @@ const app = {
   index: 0,
   isPlaying: false,
   isLoop: true,
-  isRandom: true,
+  isRandom: false,
   timer: null,
   timerRandom: null,
   play() {
@@ -181,18 +182,47 @@ const app = {
   skipSong(value) {
     audio.currentTime = value
   },
-  changeVolume(value){
-    audio.volume = value/100;
+  changeVolume(value) {
+    if (value < 100 && value >= 50) {
+      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-down');
+    } else if (value < 50 && value > 0) {
+      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-off');
+    } else if (value == 0) {
+      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-mute');
+    } else {
+      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-up');
+    }
+    audio.volume = value / 100;
   },
-  loopSong(element){
-    if(this.isLoop){
+  loopSong(element) {
+    if (this.isLoop) {
       this.isLoop = false;
       audio.loop = true;
       element.style.color = '#19A7CE';
-    }else{
+    } else {
       this.isLoop = true;
       audio.loop = false;
       element.style.color = '#333';
+    }
+  },
+  randomSong(element) {
+    if (!this.isRandom) {
+      console.log('random');
+      element.style.color = '#19A7CE';
+      this.isRandom = true;
+    } else {
+      console.log('un-random');
+      element.style.color = '#333';
+      this.isRandom = false;
+    }
+  },
+  getIndexRandom() {
+    if (this.isRandom) {
+      let indexRandom = Math.floor(Math.random() * this.songs.length);
+      this.index = indexRandom;
+      if (this.index == indexRandom) {
+        indexRandom = Math.floor(Math.random() * this.songs.length);
+      }
     }
   },
   checkSongPlaying() {
@@ -221,7 +251,7 @@ const app = {
       music_range.max = Math.floor(duration);
       song_durartion.innerHTML = this.fortmatTimer(Math.floor(duration));
       song_currentTime.innerHTML = "00:00";
-    }, 100)
+    }, 500)
 
   },
   fortmatTimer(number) {
@@ -229,8 +259,10 @@ const app = {
       const minutes = Math.floor(number / 60);
       const seconds = Math.floor(number - minutes * 60);
       return `${minutes < 10 ? "0" + minutes : minutes}:${
-      seconds < 10 ? "0" + seconds : seconds
-    }`;
+        seconds < 10 ? "0" + seconds : seconds
+      }`;
+    } else {
+      return "00:00";
     }
   },
   updateTime() {
@@ -238,12 +270,12 @@ const app = {
       this.timer = setInterval(() => {
         let {
           currentTime,
-          duration
         } = audio;
         music_range.value = Math.floor(currentTime);
         song_currentTime.innerHTML = this.fortmatTimer(currentTime);
-        // Kiểm tra nếu hết bài thì next
+        // Next song
         if (audio.ended) {
+          this.getIndexRandom();
           this.nextSong();
         }
       }, 1000);
@@ -272,16 +304,16 @@ const app = {
       this.skipSong(e.target.value);
     });
     // Thay đổi âm lượng
-    music_volume.addEventListener('input',(e)=>{
+    music_volume.addEventListener('input', (e) => {
       this.changeVolume(e.target.value);
     });
     // Nhấn nút loop
-    loop_btn.addEventListener('click',(e)=>{
+    loop_btn.addEventListener('click', (e) => {
       this.loopSong(e.target);
     });
     // Nhấn nút random
-    random_btn.addEventListener('click',(e)=>{
-      
+    random_btn.addEventListener('click', (e) => {
+      this.randomSong(e.target);
     });
   },
   start() {

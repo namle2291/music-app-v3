@@ -39,6 +39,14 @@ body {
             .music_content_box{
                 width: 69%;
                 text-align: center;
+                .logo{
+                    text-align: start;
+                    padding: 0 10px;
+                    img{
+                        width: 50px;
+                        border-radius: 50%;
+                    }
+                }
                 .music_title{
                     margin-top: 15px;
                     height: 60px;
@@ -103,7 +111,7 @@ body {
                         input{
                             width: 25%;
                         }
-                        input[type="range"]::-webkit-slider-thumb {
+                        .music_volume input::-webkit-slider-thumb {
                             -webkit-appearance: none;
                             height: 13px;
                             width: 13px;
@@ -115,6 +123,7 @@ body {
                     }
                 }
             }
+
         }
         .music_thumbnail{
             width: 270px;
@@ -152,17 +161,16 @@ body {
     animation-play-state: paused;
 }
 
-input[type="range"] {
-    -webkit-appearance: none;
+input[type=range] {
     height: 3px;
-    background: #c0c0c0dd;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+#music_range::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 15px;
-    width: 15px;
+    height: 10px;
+    width: 10px;
     border-radius: 50%;
     background: #19A7CE;
     box-shadow: 0 0 2px 0 #555;
