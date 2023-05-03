@@ -209,11 +209,9 @@ const app = {
   },
   randomSong(element) {
     if (!this.isRandom) {
-      console.log("random");
       element.style.color = "#19A7CE";
       this.isRandom = true;
     } else {
-      console.log("un-random");
       element.style.color = "#333";
       this.isRandom = false;
     }
