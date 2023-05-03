@@ -1,4 +1,5 @@
-const songs = [{
+const songs = [
+  {
     name: "Intro - Sky Decade",
     author: "Sơn Tùng - MTP",
     path: "./assets/songs/intro.mp3",
@@ -120,22 +121,22 @@ const songs = [{
   },
 ];
 
-const audio = document.querySelector('audio');
-const prev_btn = document.querySelector('#prev_btn');
-const play_btn = document.querySelector('#play_btn');
-const next_btn = document.querySelector('#next_btn');
-const loop_btn = document.querySelector('#loop_btn');
-const random_btn = document.querySelector('#random_btn');
-const music_range = document.querySelector('#music_range');
-const music_volume = document.querySelector('.music_volume input');
-const music_volume_icon = document.querySelector('.music_volume span');
-const music_thumbnail = document.querySelector('.music_thumbnail');
-const music_cd = document.querySelector('.music_cd');
-const music_cd_img = document.querySelector('.music_cd_img');
-const music_title = document.querySelector('.music_title h4');
-const music_author = document.querySelector('.music_author h5');
-const song_durartion = document.querySelector('.song_durartion');
-const song_currentTime = document.querySelector('.song_currentTime');
+const audio = document.querySelector("audio");
+const prev_btn = document.querySelector("#prev_btn");
+const play_btn = document.querySelector("#play_btn");
+const next_btn = document.querySelector("#next_btn");
+const loop_btn = document.querySelector("#loop_btn");
+const random_btn = document.querySelector("#random_btn");
+const music_range = document.querySelector("#music_range");
+const music_volume = document.querySelector(".music_volume input");
+const music_volume_icon = document.querySelector(".music_volume span");
+const music_thumbnail = document.querySelector(".music_thumbnail");
+const music_cd = document.querySelector(".music_cd");
+const music_cd_img = document.querySelector(".music_cd_img");
+const music_title = document.querySelector(".music_title h4");
+const music_author = document.querySelector(".music_author h5");
+const song_durartion = document.querySelector(".song_durartion");
+const song_currentTime = document.querySelector(".song_currentTime");
 
 const app = {
   songs,
@@ -143,15 +144,16 @@ const app = {
   isPlaying: false,
   isLoop: true,
   isRandom: false,
+  timer: null,
   play() {
     if (this.isPlaying) {
       audio.pause();
       this.isPlaying = false;
-      play_btn.children[0].setAttribute('class', 'fas fa-play');
+      play_btn.children[0].setAttribute("class", "fas fa-play");
     } else {
       audio.play();
       this.isPlaying = true;
-      play_btn.children[0].setAttribute('class', 'fas fa-pause');
+      play_btn.children[0].setAttribute("class", "fas fa-pause");
     }
     this.checkSongPlaying();
   },
@@ -163,7 +165,7 @@ const app = {
     // Load lại bài hát + play
     this.getCurrentSong();
     audio.play();
-    play_btn.children[0].setAttribute('class', 'fas fa-pause');
+    play_btn.children[0].setAttribute("class", "fas fa-pause");
     this.checkSongPlaying();
   },
   nextSong() {
@@ -174,21 +176,21 @@ const app = {
     // Load lại bài hát + play
     this.getCurrentSong();
     audio.play();
-    play_btn.children[0].setAttribute('class', 'fas fa-pause');
+    play_btn.children[0].setAttribute("class", "fas fa-pause");
     this.checkSongPlaying();
   },
   skipSong(value) {
-    audio.currentTime = value
+    audio.currentTime = value;
   },
   changeVolume(value) {
     if (value < 100 && value >= 50) {
-      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-down');
+      music_volume_icon.children[0].setAttribute("class", "fas fa-volume-down");
     } else if (value < 50 && value > 0) {
-      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-off');
+      music_volume_icon.children[0].setAttribute("class", "fas fa-volume-off");
     } else if (value == 0) {
-      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-mute');
+      music_volume_icon.children[0].setAttribute("class", "fas fa-volume-mute");
     } else {
-      music_volume_icon.children[0].setAttribute('class', 'fas fa-volume-up');
+      music_volume_icon.children[0].setAttribute("class", "fas fa-volume-up");
     }
     audio.volume = value / 100;
   },
@@ -196,21 +198,21 @@ const app = {
     if (this.isLoop) {
       this.isLoop = false;
       audio.loop = true;
-      element.style.color = '#19A7CE';
+      element.style.color = "#19A7CE";
     } else {
       this.isLoop = true;
       audio.loop = false;
-      element.style.color = '#333';
+      element.style.color = "#333";
     }
   },
   randomSong(element) {
     if (!this.isRandom) {
-      console.log('random');
-      element.style.color = '#19A7CE';
+      console.log("random");
+      element.style.color = "#19A7CE";
       this.isRandom = true;
     } else {
-      console.log('un-random');
-      element.style.color = '#333';
+      console.log("un-random");
+      element.style.color = "#333";
       this.isRandom = false;
     }
   },
@@ -228,11 +230,13 @@ const app = {
       music_cd_img.classList.remove("pause");
       music_cd_img.classList.add("play");
       music_cd.style.right = "0%";
-    }
+      this.timer();
+    };
     audio.onpause = () => {
-      music_cd_img.classList.add('pause');
+      music_cd_img.classList.add("pause");
       music_cd.style.right = "16%";
-    }
+      clearInterval(this.timer());
+    };
   },
   getCurrentSong() {
     audio.src = songs[this.index].path;
@@ -241,16 +245,13 @@ const app = {
     music_author.innerText = songs[this.index].author;
 
     setTimeout(() => {
-      const {
-        duration
-      } = audio;
+      const { duration } = audio;
       music_range.min = 0;
       music_range.value = 0;
       music_range.max = Math.floor(duration);
       song_durartion.innerHTML = this.fortmatTimer(Math.floor(duration));
       song_currentTime.innerHTML = "00:00";
-    }, 500)
-
+    }, 500);
   },
   fortmatTimer(number) {
     if (number) {
@@ -263,56 +264,50 @@ const app = {
       return "00:00";
     }
   },
-  updateTime() {
-    let timer;
-    if (!audio.paused) {
-      timer = setInterval(() => {
-        let { currentTime} = audio;
-        music_range.value = Math.floor(currentTime);
-        song_currentTime.innerText = this.fortmatTimer(currentTime);
-        // Next song
-        if (audio.ended) {
-          this.getIndexRandom();
-          this.nextSong();
-        }
-      }, 1000);
-      console.log(timer);
-    }else{
-      clearInterval(timer);
-      console.log(timer);
+  displayTimer() {
+    let {currentTime} = audio;
+    music_range.value = currentTime;
+    song_currentTime.innerText = this.fortmatTimer(currentTime);
+
+    if(audio.ended){
+      this.nextSong();
+      clearInterval(this.timer());
     }
 
   },
+  timer(){
+    let interval = setInterval(() => {
+      this.displayTimer();
+    }, 1000);
+    return interval;
+  },
   handleEvents() {
     // Nhân nút play
-    prev_btn.addEventListener('click', () => {
+    prev_btn.addEventListener("click", () => {
       this.prevSong();
-      this.updateTime();
     });
     // Nhân nút play
-    play_btn.addEventListener('click', () => {
+    play_btn.addEventListener("click", () => {
       this.play();
-      this.updateTime();
     });
     // Nhân nút play
-    next_btn.addEventListener('click', () => {
+    next_btn.addEventListener("click", () => {
       this.nextSong();
-      this.updateTime();
     });
     // Tua bài hát
-    music_range.addEventListener('input', (e) => {
+    music_range.addEventListener("input", (e) => {
       this.skipSong(e.target.value);
     });
     // Thay đổi âm lượng
-    music_volume.addEventListener('input', (e) => {
+    music_volume.addEventListener("input", (e) => {
       this.changeVolume(e.target.value);
     });
     // Nhấn nút loop
-    loop_btn.addEventListener('click', (e) => {
+    loop_btn.addEventListener("click", (e) => {
       this.loopSong(e.target);
     });
     // Nhấn nút random
-    random_btn.addEventListener('click', (e) => {
+    random_btn.addEventListener("click", (e) => {
       this.randomSong(e.target);
     });
   },

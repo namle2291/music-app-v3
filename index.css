@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Brygada+1918&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Texturina&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -6,9 +6,8 @@
 
 body {
   background-color: #A5C0DD;
-  font-family: "Arial";
   color: #444;
-  font-family: "Brygada 1918", serif;
+  font-family: "Texturina";
 }
 
 .container {
