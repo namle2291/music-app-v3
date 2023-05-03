@@ -143,8 +143,6 @@ const app = {
   isPlaying: false,
   isLoop: true,
   isRandom: false,
-  timer: null,
-  timerRandom: null,
   play() {
     if (this.isPlaying) {
       audio.pause();
@@ -266,22 +264,24 @@ const app = {
     }
   },
   updateTime() {
+    let timer;
     if (!audio.paused) {
-      this.timer = setInterval(() => {
-        let {
-          currentTime,
-        } = audio;
+      timer = setInterval(() => {
+        let { currentTime} = audio;
         music_range.value = Math.floor(currentTime);
-        song_currentTime.innerHTML = this.fortmatTimer(currentTime);
+        song_currentTime.innerText = this.fortmatTimer(currentTime);
         // Next song
         if (audio.ended) {
           this.getIndexRandom();
           this.nextSong();
         }
       }, 1000);
-    } else {
-      clearInterval(this.timer);
+      console.log(timer);
+    }else{
+      clearInterval(timer);
+      console.log(timer);
     }
+
   },
   handleEvents() {
     // Nhân nút play
