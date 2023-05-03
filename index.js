@@ -163,7 +163,8 @@ const app = {
       this.index = songs.length - 1;
     }
     // Load lại bài hát + play
-    this.getCurrentSong();
+    clearTimeout(this.loadSong());
+    this.loadSong();
     audio.play();
     play_btn.children[0].setAttribute("class", "fas fa-pause");
     this.checkSongPlaying();
@@ -174,7 +175,8 @@ const app = {
       this.index = 0;
     }
     // Load lại bài hát + play
-    this.getCurrentSong();
+    clearTimeout(this.loadSong());
+    this.loadSong();
     audio.play();
     play_btn.children[0].setAttribute("class", "fas fa-pause");
     this.checkSongPlaying();
@@ -238,20 +240,17 @@ const app = {
       clearInterval(this.timer());
     };
   },
-  getCurrentSong() {
+  loadSong() {
     audio.src = songs[this.index].path;
-    music_thumbnail.style.backgroundImage = `url(${songs[this.index].art})`;
-    music_title.innerText = songs[this.index].name;
-    music_author.innerText = songs[this.index].author;
+    let timeout = setTimeout(() => {
+      music_title.innerText = songs[this.index].name;
+      music_author.innerText = songs[this.index].author;
+      song_durartion.innerText = this.fortmatTimer(audio.duration);
+      music_thumbnail.style.backgroundImage = `url(${songs[this.index].art})`;
+      music_range.max = audio.duration;
+    }, 200);
 
-    setTimeout(() => {
-      const { duration } = audio;
-      music_range.min = 0;
-      music_range.value = 0;
-      music_range.max = Math.floor(duration);
-      song_durartion.innerHTML = this.fortmatTimer(Math.floor(duration));
-      song_currentTime.innerHTML = "00:00";
-    }, 500);
+    return timeout;
   },
   fortmatTimer(number) {
     if (number) {
@@ -265,17 +264,16 @@ const app = {
     }
   },
   displayTimer() {
-    let {currentTime} = audio;
+    let { currentTime } = audio;
     music_range.value = currentTime;
     song_currentTime.innerText = this.fortmatTimer(currentTime);
 
-    if(audio.ended){
+    if (audio.ended) {
       this.nextSong();
       clearInterval(this.timer());
     }
-
   },
-  timer(){
+  timer() {
     let interval = setInterval(() => {
       this.displayTimer();
     }, 1000);
@@ -313,7 +311,7 @@ const app = {
   },
   start() {
     this.handleEvents();
-    this.getCurrentSong();
+    this.loadSong();
   },
 };
 
